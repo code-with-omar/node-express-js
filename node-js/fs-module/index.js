@@ -26,10 +26,19 @@ const fs = require("fs");
 
 //rename file name
 
-fs.rename("demo.txt", "real.txt", (err) => {
+// fs.rename("demo.txt", "real.txt", (err) => {
+//   if (err) {
+//     console.log(err);
+//   } else {
+//     console.log("rename successfull");
+//   }
+// });
+
+// delete an file
+fs.unlink("real.txt", (err) => {
   if (err) {
     console.log(err);
   } else {
-    console.log("rename successfull");
+    console.log("Delete succcefull");
   }
 });
