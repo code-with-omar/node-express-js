@@ -16,10 +16,20 @@ const fs = require("fs");
 // });
 
 // readFile
-fs.readFile("demo.txt", "utf-8", (err, data) => {
+// fs.readFile("demo.txt", "utf-8", (err, data) => {
+//   if (err) {
+//     console.log(err);
+//   } else {
+//     console.log(data);
+//   }
+// });
+
+//rename file name
+
+fs.rename("demo.txt", "real.txt", (err) => {
   if (err) {
     console.log(err);
   } else {
-    console.log(data);
+    console.log("rename successfull");
   }
 });
