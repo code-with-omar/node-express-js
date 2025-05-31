@@ -1,6 +1,14 @@
 const express = require("express");
 const router = express.Router();
 
+router.get("/info", (req, res) => {
+  const id = req.query.id;
+  const name = req.query.name;
+  res.send(`
+    <h1>Student id is : ${id}</h1>
+    <h2>Student name is : ${name}</h2>
+    `);
+});
 router.get("/about", (req, res) => {
   res.send("I am from about route");
 });

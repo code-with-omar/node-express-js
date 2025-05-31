@@ -385,3 +385,24 @@ router.get("/login", (req, res) => {
 3. Request with Query Parameter -> `req.query.parameterName`
 4. Request with headers -> `req.header('key')`
 5. Request with JSON data / from data inside body -> `req.body.parameterName`
+
+### Request with Query parameter -> user `?`
+
+```js
+// for single query
+`http://localhost:5000/user/info?id=190605`// for multiple query pass use & sign
+`http://localhost:5000/user/info?id=190605&name=omarFaruk`;
+```
+
+example
+
+```js
+router.get("/info", (req, res) => {
+  const id = req.query.id;
+  const name = req.query.name;
+  res.send(`
+    <h1>Student id is : ${id}</h1>
+    <h2>Student name is : ${name}</h2>
+    `);
+});
+```
