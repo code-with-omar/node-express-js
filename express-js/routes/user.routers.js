@@ -9,6 +9,15 @@ router.get("/info", (req, res) => {
     <h2>Student name is : ${name}</h2>
     `);
 });
+
+router.get("/user/:id/user/:name", (req, res) => {
+  const id = req.params.id;
+  const name = req.params.name;
+  res.send(`
+    <h1>Student id is : ${id}</h1>
+    <h2>Student name is : ${name}</h2>
+    `);
+});
 router.get("/about", (req, res) => {
   res.send("I am from about route");
 });

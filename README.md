@@ -378,7 +378,7 @@ router.get("/login", (req, res) => {
 });
 ```
 
-### Request methods
+## Request methods
 
 1. http requests through - `get, post, put, delete`
 2. Request with Router Parameters -> `req.params.parameterName`
@@ -390,7 +390,7 @@ router.get("/login", (req, res) => {
 
 ```js
 // for single query
-`http://localhost:5000/user/info?id=190605`// for multiple query pass use & sign
+`http://localhost:5000/user/info?id=190605` // for multiple query pass use & sign
 `http://localhost:5000/user/info?id=190605&name=omarFaruk`;
 ```
 
@@ -400,6 +400,31 @@ example
 router.get("/info", (req, res) => {
   const id = req.query.id;
   const name = req.query.name;
+  res.send(`
+    <h1>Student id is : ${id}</h1>
+    <h2>Student name is : ${name}</h2>
+    `);
+});
+```
+
+### Request with Route Parameter -> `routename/:value` for multiple `routerName/:value/routeName/:value`
+
+example
+
+```js
+`url: http://localhost:5000/user/user/190605`;
+router.get("/user/:id", (req, res) => {
+  const id = req.params.id;
+  res.send(`
+    <h1>Student id is : ${id}</h1>
+   
+    `);
+});
+// For multiple Parameter
+`url : http://localhost:5000/user/user/190605/user/omar`;
+router.get("/user/:id/user/:name", (req, res) => {
+  const id = req.params.id;
+  const name = req.params.name;
   res.send(`
     <h1>Student id is : ${id}</h1>
     <h2>Student name is : ${name}</h2>
