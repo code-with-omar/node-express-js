@@ -214,10 +214,10 @@ server.listen(PORT, () => {
 });
 ```
 
-
 # Express js
 
 ## create server
+
 ```js
 // app.js
 
@@ -225,7 +225,6 @@ const express = require("express");
 const app = express();
 
 module.exports = app;
-
 
 // index.js
 
@@ -235,38 +234,39 @@ const PORT = 5000;
 app.listen(PORT, () => {
   console.log("Server is running");
 });
-
 ```
 
 # HTTP request
+
 ```js
 // app.js
 
 const express = require("express");
 const app = express();
-app.get('/get', (req, res) => {
-  res.send('GET request received');
+app.get("/get", (req, res) => {
+  res.send("GET request received");
 });
 
 // POST → create new data
-app.post('/post', (req, res) => {
-  res.send('POST request received');
+app.post("/post", (req, res) => {
+  res.send("POST request received");
 });
 
 // PUT → replace existing data
-app.put('/put', (req, res) => {
-  res.send('PUT request received');
+app.put("/put", (req, res) => {
+  res.send("PUT request received");
 });
 
 // PATCH → update part of existing data
-app.patch('/patch', (req, res) => {
-  res.send('PATCH request received');
+app.patch("/patch", (req, res) => {
+  res.send("PATCH request received");
 });
 
 // DELETE → delete data
-app.delete('/delete', (req, res) => {
-  res.send('DELETE request received');
+app.delete("/delete", (req, res) => {
+  res.send("DELETE request received");
 });
-
-
+app.use((req, res) => {
+  res.send("<h1>404 !! page not found</h1>");
+});
 ```
