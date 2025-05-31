@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
+// request with Query parameter
 router.get("/info", (req, res) => {
   const id = req.query.id;
   const name = req.query.name;
@@ -9,10 +10,19 @@ router.get("/info", (req, res) => {
     <h2>Student name is : ${name}</h2>
     `);
 });
-
+// request with route parameter
 router.get("/user/:id/user/:name", (req, res) => {
   const id = req.params.id;
   const name = req.params.name;
+  res.send(`
+    <h1>Student id is : ${id}</h1>
+    <h2>Student name is : ${name}</h2>
+    `);
+});
+// request with parameter
+router.get("/", (req, res) => {
+  const id = req.header("id");
+  const name = req.header("name");
   res.send(`
     <h1>Student id is : ${id}</h1>
     <h2>Student name is : ${name}</h2>

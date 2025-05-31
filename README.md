@@ -386,7 +386,7 @@ router.get("/login", (req, res) => {
 4. Request with headers -> `req.header('key')`
 5. Request with JSON data / from data inside body -> `req.body.parameterName`
 
-### Request with Query parameter -> user `?`
+### 1. Request with Query parameter -> user `?`
 
 ```js
 // for single query
@@ -407,7 +407,10 @@ router.get("/info", (req, res) => {
 });
 ```
 
-### Request with Route Parameter -> `routename/:value` for multiple `routerName/:value/routeName/:value`
+### 2. Request with Route Parameter
+
+- `routename/:value`
+- for multiple `routerName/:value/routeName/:value`
 
 example
 
@@ -425,6 +428,20 @@ router.get("/user/:id", (req, res) => {
 router.get("/user/:id/user/:name", (req, res) => {
   const id = req.params.id;
   const name = req.params.name;
+  res.send(`
+    <h1>Student id is : ${id}</h1>
+    <h2>Student name is : ${name}</h2>
+    `);
+});
+```
+
+### 3. Request with headers
+
+```js
+// request with headers
+router.get("/", (req, res) => {
+  const id = req.header("id");
+  const name = req.header("name");
   res.send(`
     <h1>Student id is : ${id}</h1>
     <h2>Student name is : ${name}</h2>
