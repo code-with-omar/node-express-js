@@ -377,3 +377,11 @@ router.get("/login", (req, res) => {
   });
 });
 ```
+
+### Request methods
+
+1. http requests through - `get, post, put, delete`
+2. Request with Router Parameters -> `req.params.parameterName`
+3. Request with Query Parameter -> `req.query.parameterName`
+4. Request with headers -> `req.header('key')`
+5. Request with JSON data / from data inside body -> `req.body.parameterName`
