@@ -270,3 +270,72 @@ app.use((req, res) => {
   res.send("<h1>404 !! page not found</h1>");
 });
 ```
+
+## Express js-> Router
+
+- Create routers folder and create ruoter related file. likes
+  /project-root
+  ├── app.js
+  ├── server.js/index.js
+  └── /routers
+  └── user.router.js
+
+## 🛠 Step 1: /routers/user.router.js
+
+```js
+const express = require("express");
+const router = express.Router();
+
+router.get("/about", (req, res) => {
+  res.send("I am from about route");
+});
+
+router.post("/login", (req, res) => {
+  res.send("Post request found");
+});
+
+router.delete("/remove", (req, res) => {
+  res.send("Deleted");
+});
+router.put("/edit", (req, res) => {
+  res.send("Edit complete");
+});
+
+module.exports = router;
+```
+
+## Step 2: app.js
+
+```js
+const express = require("express");
+const app = express();
+const userRouter = require("./routes/user.routers");
+// http request
+app.use("/user", userRouter);
+
+app.get("/", (req, res) => {
+  res.send("I am a get requuest at home route");
+});
+app.use((req, res) => {
+  res.send("<h1>404 !! page not found</h1>");
+});
+module.exports = app;
+```
+
+## Step 3: index.js
+
+```js
+const express = require("express");
+const app = express();
+const userRouter = require("./routes/user.routers");
+// http request
+app.use("/user", userRouter);
+
+app.get("/", (req, res) => {
+  res.send("I am a get requuest at home route");
+});
+app.use((req, res) => {
+  res.send("<h1>404 !! page not found</h1>");
+});
+module.exports = app;
+```
