@@ -236,7 +236,7 @@ app.listen(PORT, () => {
 });
 ```
 
-# HTTP request
+## HTTP request
 
 ```js
 // app.js
@@ -274,11 +274,15 @@ app.use((req, res) => {
 ## Express js-> Router
 
 - Create routers folder and create ruoter related file. likes
+
+  ```bash
   /project-root
   ├── app.js
-  ├── server.js/index.js
+  ├── server.js
   └── /routers
-  └── user.router.js
+        └── user.router.js
+
+  ```
 
 ## 🛠 Step 1: /routers/user.router.js
 
@@ -325,17 +329,51 @@ module.exports = app;
 ## Step 3: index.js
 
 ```js
-const express = require("express");
-const app = express();
-const userRouter = require("./routes/user.routers");
-// http request
-app.use("/user", userRouter);
+const app = require("./app");
+const PORT = 5000;
 
+app.listen(PORT, () => {
+  console.log("Server is running");
+});
+```
+
+## HTTP Response
+
+### Response as a `JSON` file
+
+```js
+// file path:/routers/user.routers.js
+const express = require("express");
+const router = express.Router();
+router.get("/login", (req, res) => {
+  res.status(200).json({
+    message: "I am come from login page",
+    statusCode: 200,
+  });
+});
+
+module.exports = router;
+```
+
+### Response as a `HTML` file
+
+```js
 app.get("/", (req, res) => {
-  res.send("I am a get requuest at home route");
+  res.statusCode = 200;
+  res.sendFile(__dirname + "/views/index.html");
 });
-app.use((req, res) => {
-  res.send("<h1>404 !! page not found</h1>");
+```
+
+### Set cookies
+
+```js
+router.get("/login", (req, res) => {
+  res.cookie("name", "Omar Faruk");
+  res.cookie("name", "Arif");
+
+  res.status(200).json({
+    message: "I am come from login page",
+    statusCode: 200,
+  });
 });
-module.exports = app;
 ```

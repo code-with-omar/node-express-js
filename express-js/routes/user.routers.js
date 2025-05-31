@@ -5,8 +5,14 @@ router.get("/about", (req, res) => {
   res.send("I am from about route");
 });
 
-router.post("/login", (req, res) => {
-  res.send("Post request found");
+router.get("/login", (req, res) => {
+  res.cookie("name", "Omar Faruk");
+  res.cookie("name", "Arif");
+
+  res.status(200).json({
+    message: "I am come from login page",
+    statusCode: 200,
+  });
 });
 
 router.delete("/remove", (req, res) => {

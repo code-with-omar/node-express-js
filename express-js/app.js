@@ -5,7 +5,8 @@ const userRouter = require("./routes/user.routers");
 app.use("/user", userRouter);
 
 app.get("/", (req, res) => {
-  res.send("I am a get requuest at home route");
+  res.statusCode = 200;
+  res.sendFile(__dirname + "/views/index.html");
 });
 app.use((req, res) => {
   res.send("<h1>404 !! page not found</h1>");
