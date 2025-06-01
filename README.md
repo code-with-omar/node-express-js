@@ -494,7 +494,65 @@ pp.use("/user/:id", (req, res, next) => {
 });
 ```
 
-### 2. Error-handling middleware
+### 2. Router-level middleware
+
+Router-level middleware works in the same way as application-level middleware, except it is bound to an instance of express.Router().
+
+```js
+const router = express.Router();
+```
+
+Load `router-level` middleware by using the `router.use()` and `router.METHOD()` functions.
+
+The following example code replicates the middleware system that is shown above for application-level middleware, by using router-level middleware:
+
+```js
+const express = require("express");
+const app = express();
+const router = express.Router();
+
+// a middleware function with no mount path. This code is executed for every request to the router
+router.use((req, res, next) => {
+  console.log("Time:", Date.now());
+  next();
+});
+
+router.get("/", (req, res) => {
+  const id = req.header("id");
+  const name = req.header("name");
+  res.send(`
+    <h1>Student id is : ${id}</h1>
+    <h2>Student name is : ${name}</h2>
+    `);
+});
+
+// a middleware sub-stack that handles GET requests to the /user/:id path
+router.get(
+  "/user/:id",
+  (req, res, next) => {
+    // if the user ID is 0, skip to the next router
+    if (req.params.id === "0") next("route");
+    // otherwise pass control to the next middleware function in this stack
+    else next();
+  },
+  (req, res, next) => {
+    // render a regular page
+    res.render("regular");
+  }
+);
+```
+
+### Built-in middleware
+
+Starting with version 4.x, Express no longer depends on Connect. The middleware functions that were previously included with Express are now in separate modules; see the list of middleware functions.
+
+Express has the following built-in middleware functions:
+
+- express.static serves static assets such as HTML files, images, and so on.
+- express.json parses incoming requests with JSON payloads. NOTE: Available with Express 4.16.0+
+- express.urlencoded parses incoming requests with URL-encoded payloads. NOTE: Available with Express 4.16.0+
+
+### 4. Error-handling middleware
 
 ```js
 // syntax
