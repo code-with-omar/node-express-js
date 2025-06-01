@@ -448,3 +448,59 @@ router.get("/", (req, res) => {
     `);
 });
 ```
+
+## Middleware
+
+Express is a routing and middleware web framework that has minimal functionality of its own: An Express application is essentially a series of middleware function calls.
+
+Middleware functions are functions that have access to the `request object (req)`, the `response object (res)`, and the `next` middleware function in the application’s request-response cycle. The `next` middleware function is commonly denoted by a variable named `next`.
+
+Middleware functions can perform the following tasks:
+
+- Execute any code.
+- Make changes to the request and the response objects.
+- End the request-response cycle.
+- Call the next middleware function in the stack.
+
+If the current middleware function does not end the request-response cycle, it must call `next()` to pass control to the next middleware function. Otherwise, the request will be left hanging.
+
+An Express application can use the following types of middleware:
+
+- Application-level middleware
+- Router-level middleware
+- Error-handling middleware
+- Built-in middleware
+- Third-party middleware
+
+### 1. Application-level middleware
+
+```js
+// example:1
+app.use((req, res, next) => {
+  console.log("Time", Date.now());
+  next();
+});
+// example:2
+app.get("/", (req, res) => {
+  res.statusCode = 200;
+  res.sendFile(__dirname + "/views/index.html");
+});
+
+// example 3
+
+pp.use("/user/:id", (req, res, next) => {
+  console.log("Request Type:", req.method);
+  next();
+});
+```
+
+### 2. Error-handling middleware
+
+```js
+// syntax
+app.use(function(err,req,res,next))
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send("Something broke !");
+});
+```
