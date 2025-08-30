@@ -273,7 +273,7 @@ app.use((req, res) => {
 
 ## Express js-> Router
 
-- Create routers folder and create ruoter related file. likes
+- Create routers folder and create router related file. likes
 
   ```bash
   /project-root
@@ -318,7 +318,7 @@ const userRouter = require("./routes/user.routers");
 app.use("/user", userRouter);
 
 app.get("/", (req, res) => {
-  res.send("I am a get requuest at home route");
+  res.send("I am a get request at home route");
 });
 app.use((req, res) => {
   res.send("<h1>404 !! page not found</h1>");
@@ -561,4 +561,143 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send("Something broke !");
 });
+```
+
+## MVC architecture (Model, Views, Controller)
+
+## REST-API with MVC architecture
+
+### 1. index.js -> Create server
+
+```js
+const app = require("./app");
+const PORT = 4000;
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
+```
+
+### 2. app.js -> sets up and configures the Express application (middleware, routes, error handling).
+
+```js
+const express = require("express");
+const cors = require("cors");
+const bodyParser = require("body-parser");
+const usersRoute = require("./routes/users.route");
+const app = express();
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use("/users", usersRoute);
+
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/views/index.html");
+});
+
+app.use((req, res, next) => {
+  res.status(404).json({ message: "Route not found" });
+});
+
+// server error
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: "Internal Server Error" });
+});
+
+module.exports = app;
+```
+
+### 3.Model : models/users.model.js
+
+```js
+const { v4: uuidv4 } = require("uuid");
+
+const users = [
+  {
+    id: uuidv4(),
+    name: "John Doe",
+    email: "john.doe@example.com",
+  },
+  {
+    id: uuidv4(),
+    name: "Jane Smith",
+    email: "jane.smith@example.com",
+  },
+  {
+    id: uuidv4(),
+    name: "Alice Johnson",
+    email: "alice.johnson@example.com",
+  },
+];
+module.exports = users;
+```
+
+### 4. views : views/index.html
+
+- Handles the UI / presentation layer (e.g., HTML, frontend, API responses).
+
+### 5. Routes: routers/users.router.js
+
+```js
+const router = require("express").Router();
+const {
+  getAllUsers,
+  createUser,
+  updateUser,
+  deleteUser,
+} = require("../controllers/users.controllers");
+
+router.get("/", getAllUsers); // get method
+router.post("/", createUser); // post method
+router.delete("/:id", deleteUser); // delete method
+router.put("/:id", updateUser); // update method
+module.exports = router;
+```
+
+### 6. Controllers: controller.users.controllers.js
+
+```js
+let users = require("../models/users.model");
+const { v4: uuidv4 } = require("uuid");
+const getAllUsers = (req, res) => {
+  res.status(200).json({ users });
+};
+// create users
+const createUser = (req, res) => {
+  const newUser = {
+    id: uuidv4(),
+    name: req.body.name,
+    email: req.body.email,
+  };
+  users.push(newUser);
+  res.status(201).json({ message: "User created successfully", user: users });
+};
+
+//update user
+
+const updateUser = (req, res) => {
+  const id = req.params.id;
+  const { name, email } = req.body;
+  const user = users.find((user) => user.id === id);
+  console.log(user);
+  if (user) {
+    user.name = name;
+    user.email = email;
+
+    res.status(200).json({ message: "User updated successfully", users });
+  } else {
+    res.status(404).json({ message: "User not found" });
+  }
+};
+
+// delete user
+const deleteUser = (req, res) => {
+  const id = req.params.id;
+  users = users.filter((user) => user.id !== id);
+
+  res.status(200).json({ message: "User deleted successfully", users });
+};
+module.exports = { getAllUsers, createUser, updateUser, deleteUser };
 ```
