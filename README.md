@@ -570,6 +570,7 @@ MVC (Model-View-Controller) Architecture is a fundamental design pattern in soft
 ![MVC image](./MVC-architecture//images/mvc.png)
 
 ### What is MVC architecture
+
 - MVC stands for Model–View–Controller.
 - It is a design pattern used to separate concerns in an application:
 
@@ -608,6 +609,107 @@ express-mvc-app/
 │   └── users.ejs
 └── package.json
 
+```
+
+## Example Implementation of MVC Architecture
+
+### 1. Model (models/users.model.js)
+
+```js
+const mongoose = require("mongoose");
+
+const usersSchema = new mongoose.Schema({
+  user: String,
+  hotel: String,
+  date: Date,
+  price: Number,
+});
+
+const Users = mongoose.model("Booking", usersSchema);
+
+module.exports = Users;
+```
+
+- The `Users` model defines the schema for a booking and interacts with the database to manage `users` data.
+
+### 2. View (views/index.html)
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form method="POST" action="/users">
+      <input type="text" name="name" placeholder="Enter your name" />
+      <input type="number" name="age" placeholder="Enter your age" />
+      <button type="submit">Save User</button>
+    </form>
+  </body>
+</html>
+```
+
+### 3.Controller (controllers/users.controller.js)
+
+```js
+const users = require("../models/users.model");
+const path = require("path");
+
+// serve HTML page
+exports.getUsers = (req, res) => {
+  res.sendFile(path.join(__dirname, "../views/index.html"));
+};
+
+// save user to in-memory array
+exports.saveUsers = (req, res) => {
+  const name = req.body.name;
+  const age = Number(req.body.age);
+
+  const user = { name, age };
+  users.push(user);
+
+  res.status(201).json({
+    success: true,
+    users,
+  });
+};
+```
+
+- The Controller retrieves `users` data from the Model and passes it to the View, or it creates a new `users` based on user input.
+
+### 4. Routes (routes/users.route.js)
+
+```js
+const express = require("express");
+const { getUsers, saveUsers } = require("../controllers/users.controller");
+const router = express.Router();
+
+router.get("/user", getUsers);
+router.post("/users", saveUsers);
+module.exports = router;
+```
+
+### 5. Server Setup (index.js/app.js)
+
+```js
+const express = require("express");
+const userRouter = require("./routes/users.route");
+const app = express();
+const PORT = 3000;
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(userRouter);
+
+app.get("/", (req, res) => {
+  res.send("Hello from server");
+});
+
+app.listen(PORT, () => {
+  console.log(`Server is running http://localhost:${PORT}`);
+});
 ```
 
 ## REST-API with MVC architecture
