@@ -565,6 +565,44 @@ app.use((err, req, res, next) => {
 
 ## MVC architecture (Model, Views, Controller)
 
+- MVC stands for Model–View–Controller.
+- It is a design pattern used to separate concerns in an application:
+
+### Model
+
+- Represents the data and business logic.
+- Example: Database schemas, functions to query the database.
+
+### View
+
+- Responsible for the UI / presentation layer.
+
+- In Express, it can be HTML templates (EJS, Handlebars, etc.) or JSON responses (for APIs).
+
+### Controller
+
+- Handles user requests and business logic, calls Models, and sends results to Views.
+
+- Example: Defines routes, processes requests, returns data.
+
+### Project Structure (Express MVC Example)
+
+```command
+express-mvc-app/
+│
+├── app.js              # Main server file
+├── routes/             # All route files
+│   └── userRoutes.js
+├── controllers/        # All controllers
+│   └── userController.js
+├── models/             # All models
+│   └── userModel.js
+├── views/              # Template files (EJS/HTML)
+│   └── users.ejs
+└── package.json
+
+```
+
 ## REST-API with MVC architecture
 
 ### 1. index.js -> Create server
