@@ -565,8 +565,15 @@ app.use((err, req, res, next) => {
 
 ## MVC architecture (Model, Views, Controller)
 
+MVC (Model-View-Controller) Architecture is a fundamental design pattern in software development, separating an application into Model, View, and Controller components. This article explores its role in building robust, maintainable systems, emphasizing its benefits and implementation strategies.
+
+![MVC image](./MVC-architecture//images/mvc.png)
+
+### What is MVC architecture
 - MVC stands for Model–View–Controller.
 - It is a design pattern used to separate concerns in an application:
+
+![MVC image](./MVC-architecture//images/MVC-1.png)
 
 ### Model
 
