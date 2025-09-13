@@ -2,8 +2,8 @@
 
 # There are three types of modules
 
-- 1. Built-in Modules
-     Node.js comes with built-in (core) modules — these are already included when you install Node, so you don’t need to install them using `npm.`
+Built-in Modules
+Node.js comes with built-in (core) modules — these are already included when you install Node, so you don’t need to install them using `npm.`
 
 They live inside Node itself, not inside `node_modules`.
 ✅ Examples:
@@ -847,4 +847,110 @@ const deleteUser = (req, res) => {
   res.status(200).json({ message: "User deleted successfully", users });
 };
 module.exports = { getAllUsers, createUser, updateUser, deleteUser };
+```
+
+## File Upload using Multer (Express.js)
+
+This project demonstrates how to upload files using **[Multer](https://www.npmjs.com/package/multer)** in an Express.js server.
+
+---
+
+### What is Multer?
+
+Multer is a **Node.js middleware** for handling `multipart/form-data`, which is primarily used for **file uploads**.
+
+Documentation: [Multer on npm](https://www.npmjs.com/package/multer)
+
+---
+
+### Installation
+
+### Initialize a Node.js project (if not already done):
+
+```bash
+npm init -y
+npm install express multer
+```
+
+### Code Explanation
+
+`Server`
+
+```js
+const express = require("express");
+const multer = require("multer");
+const path = require("path");
+const app = express();
+const PORT = 5000;
+
+// Configure storage for uploaded files
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname, "upload")); // Save files in /upload
+  },
+  filename: function (req, file, cb) {
+    const name = Date.now() + "-" + file.originalname;
+    cb(null, name); // Unique filename
+  },
+});
+
+const upload = multer({ storage: storage });
+
+// Serve HTML form
+app.get("/upload", (req, res) => {
+  res.status(200).sendFile(path.join(__dirname, "index.html"));
+});
+
+// Handle file upload
+// upload.single is used only upload one image
+// upload.single("image") here `image` is the same as like input file name. example->
+// <input type="file" name="image" id="image" /> here name="image" since upload.single("image") is used
+app.post("/upload", upload.single("image"), (req, res) => {
+  console.log(req.file); // File info (optional)
+  res.status(200).send("File is uploaded");
+});
+
+// Start server
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
+```
+
+`Frontend / index.html`
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+      <div>
+        <input type="file" name="image" id="image" />
+      </div>
+      <br />
+      <div>
+        <input type="submit" value="upload" />
+      </div>
+    </form>
+  </body>
+</html>
+```
+
+### Uploaded File Info
+
+```json
+{
+  "fieldname": "image",
+  "originalname": "myphoto.png",
+  "encoding": "7bit",
+  "mimetype": "image/png",
+  "destination": "/project-folder/upload",
+  "filename": "1694605000000-myphoto.png",
+  "path": "/project-folder/upload/1694605000000-myphoto.png",
+  "size": 12345
+}
 ```
